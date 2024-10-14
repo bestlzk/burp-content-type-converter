@@ -16,38 +16,29 @@ public class Menu implements IContextMenuFactory {
     public List<JMenuItem> createMenuItems(final IContextMenuInvocation invocation) {
         List<JMenuItem> menus = new ArrayList();
 
-        if (invocation.getToolFlag() != IBurpExtenderCallbacks.TOOL_INTRUDER && invocation.getInvocationContext() != IContextMenuInvocation.CONTEXT_MESSAGE_EDITOR_REQUEST){
+        if (invocation.getToolFlag() != IBurpExtenderCallbacks.TOOL_INTRUDER && invocation.getInvocationContext() != IContextMenuInvocation.CONTEXT_MESSAGE_EDITOR_REQUEST) {
             return menus;
         }
 
-        JMenuItem sendXMLToRepeater = new JMenuItem("Convert to XML");
-        JMenuItem sendJSONToRepeater = new JMenuItem("Convert to JSON");
-        sendXMLToRepeater.addMouseListener(new MouseListener() {
-
+        JMenuItem sendURLENCODEDToRepeater = new JMenuItem("Convert to URLENCODED");
+        sendURLENCODEDToRepeater.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent arg0) {
-
             }
-
 
             public void mouseEntered(MouseEvent arg0) {
             }
 
-
             public void mouseExited(MouseEvent arg0) {
             }
 
-
             public void mousePressed(MouseEvent arg0) {
-
             }
-
 
             public void mouseReleased(MouseEvent arg0) {
                 IHttpRequestResponse iReqResp = invocation.getSelectedMessages()[0];
                 try {
-                    byte[] request = Utilities.convertToXML(m_helpers, iReqResp);
+                    byte[] request = Utilities.convertToURLENCODED(m_helpers, iReqResp);
                     if (request != null) {
-
                         iReqResp.setRequest(request);
                     }
                 } catch (Exception e) {
@@ -56,32 +47,25 @@ public class Menu implements IContextMenuFactory {
             }
         });
 
+        JMenuItem sendJSONToRepeater = new JMenuItem("Convert to JSON");
         sendJSONToRepeater.addMouseListener(new MouseListener() {
-
             public void mouseClicked(MouseEvent arg0) {
-
             }
-
 
             public void mouseEntered(MouseEvent arg0) {
             }
 
-
             public void mouseExited(MouseEvent arg0) {
             }
 
-
             public void mousePressed(MouseEvent arg0) {
-
             }
-
 
             public void mouseReleased(MouseEvent arg0) {
                 IHttpRequestResponse iReqResp = invocation.getSelectedMessages()[0];
                 try {
                     byte[] request = Utilities.convertToJSON(m_helpers, iReqResp);
                     if (request != null) {
-
                         iReqResp.setRequest(request);
                     }
                 } catch (Exception e) {
@@ -90,10 +74,36 @@ public class Menu implements IContextMenuFactory {
             }
         });
 
+        JMenuItem sendXMLToRepeater = new JMenuItem("Convert to XML");
+        sendXMLToRepeater.addMouseListener(new MouseListener() {
+            public void mouseClicked(MouseEvent arg0) {
+            }
 
-        menus.add(sendXMLToRepeater);
+            public void mouseEntered(MouseEvent arg0) {
+            }
+
+            public void mouseExited(MouseEvent arg0) {
+            }
+
+            public void mousePressed(MouseEvent arg0) {
+            }
+
+            public void mouseReleased(MouseEvent arg0) {
+                IHttpRequestResponse iReqResp = invocation.getSelectedMessages()[0];
+                try {
+                    byte[] request = Utilities.convertToXML(m_helpers, iReqResp);
+                    if (request != null) {
+                        iReqResp.setRequest(request);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        menus.add(sendURLENCODEDToRepeater);
         menus.add(sendJSONToRepeater);
+        menus.add(sendXMLToRepeater);
         return menus;
     }
-
 }
