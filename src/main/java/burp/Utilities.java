@@ -157,8 +157,9 @@ public class Utilities {
     // convert json to urlencoded
     private static String json2urlencoded(JSONObject jsonObject) throws Exception {
         List<String> pairs = new ArrayList<>();
-        Iterable<String> keys = () -> jsonObject.keys();
-        for (String key : keys) {
+        Iterator<String> keysIterator = jsonObject.keys();
+        while (keysIterator.hasNext()) {
+            String key = keysIterator.next();
             Object value = jsonObject.get(key);
             final String pair = key + "=" + URLEncoder.encode(value.toString(), "UTF-8");
             pairs.add(pair);

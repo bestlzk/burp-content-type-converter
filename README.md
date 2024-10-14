@@ -1,7 +1,7 @@
 Content-Type Converter
 =========
 
-Burp extension to convert XML to JSON, JSON to XML, x-www-form-urlencoded to XML, and x-www-form-urlencoded to JSON.
+Burp extension to convert Content-Type
 
 Requirements: Java 8 (Due to issues with one of the libraries it only works on Java 8. I have not had any problems with Burp using Java 8.)
 
@@ -9,103 +9,46 @@ Right-click on a request in an editable message window such as Repeater, Intrude
 
 The following convertions are supported:
 
-* XML to JSON
-* JSON to XML
-* Body Parameter to XML
 * Body Parameter to JSON
-* GET Request Parameter to POST Request XML
+* JSON to Body Parameter
+* Body Parameter to XML
+* XML to Body Parameter
+* JSON to XML
+* XML to JSON
 * GET Request Parameter to POST Request JSON
+* GET Request Parameter to POST Request XML
 
-![alt tag](https://blog.netspi.com/wp-content/uploads/2015/06/1433537211-4d9354b031b81daa10a7247d882d20da.jpg)
+### Body Parameter
 
-###Body Parameter###
-
-```
+```http request
 POST /test HTTP/1.1
 Host: www.example.com
 Proxy-Connection: keep-alive
-Content-Length: 32
+Content-Type: application/x-www-form-urlencoded;charset=UTF-8
+Content-Length: 31
 
-parameter1=1&parameters2="test"
-
+parameter1=111&parameters2=test
 ```
 
-#####To XML#####
-```
+### JSON
+
+```http request
 POST /test HTTP/1.1
 Host: www.example.com
 Proxy-Connection: keep-alive
-Content-Length: 136
-Content-Type: application/xml;charset=UTF-8
-
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<root>
-<parameters2>"test"</parameters2>
-<parameter1>1</parameter1>
-</root>
-```
-#####To JSON#####
-```
-POST /test HTTP/1.1
-Host: www.example.com
-Proxy-Connection: keep-alive
-Content-Length: 43
+Content-Length: 41
 Content-Type: application/json;charset=UTF-8
 
-{"parameter1":"1","parameters2":"\"test\""}
+{"parameter1":"111","parameters2":"test"}
 ```
 
-###JSON to XML###
-
-```
+### XML
+```http request
 POST /test HTTP/1.1
 Host: www.example.com
 Proxy-Connection: keep-alive
-Content-Length: 43
-Content-Type: application/json;charset=UTF-8
-
-{"parameter1":"1","parameters2":"\"test\""}
-```
-#####To XML#####
-```
-POST /test HTTP/1.1
-Host: www.example.com
-Proxy-Connection: keep-alive
-Content-Length: 136
+Content-Length: 111
 Content-Type: application/xml;charset=UTF-8
 
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<root>
-<parameters2>"test"</parameters2>
-<parameter1>1</parameter1>
-</root>
-```
-
-###XML to JSON###
-
-```
-POST /test HTTP/1.1
-Host: www.example.com
-Proxy-Connection: keep-alive
-Content-Length: 136
-Content-Type: application/xml;charset=UTF-8
-
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<root>
-<parameters2>"test"</parameters2>
-<parameter1>1</parameter1>
-</root>
-```
-#####To JSON#####
-```
-POST /text HTTP/1.1
-Host: www.example.com
-Proxy-Connection: keep-alive
-Content-Length: 60
-Content-Type: application/json;charset=UTF-8
-
-{"root": {
-  "parameters2": "\"test\"",
-  "parameter1": 1
-}}
+<?xml version="1.0" encoding="UTF-8" ?><root><parameter1>111</parameter1><parameters2>test</parameters2></root>
 ```
