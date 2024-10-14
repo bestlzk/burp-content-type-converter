@@ -6,7 +6,20 @@
 
     <groupId>com.netspi.contenttypeconverter</groupId>
     <artifactId>contenttypeconverter</artifactId>
-    <version>1</version>
+    <version>1.0</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>com-google-gson</artifactId>
+            <version>RELEASE113</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-json-org</artifactId>
+            <version>2.18.0</version>
+        </dependency>
+    </dependencies>
 
 </project>
