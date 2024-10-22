@@ -15,6 +15,7 @@ The following convertions are supported:
 * XML to Body Parameter
 * JSON to XML
 * XML to JSON
+* GET Request Parameter to POST Request Parameter
 * GET Request Parameter to POST Request JSON
 * GET Request Parameter to POST Request XML
 
