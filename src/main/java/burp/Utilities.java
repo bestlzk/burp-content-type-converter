@@ -22,7 +22,7 @@ public class Utilities {
         String body = new String(request, requestInfo.getBodyOffset(), request.length - requestInfo.getBodyOffset(), StandardCharsets.UTF_8);
 
         // ignore other content-type
-        if (content_type != IRequestInfo.CONTENT_TYPE_XML && content_type != IRequestInfo.CONTENT_TYPE_JSON) {
+        if (content_type != IRequestInfo.CONTENT_TYPE_NONE && content_type != IRequestInfo.CONTENT_TYPE_URL_ENCODED && content_type != IRequestInfo.CONTENT_TYPE_XML && content_type != IRequestInfo.CONTENT_TYPE_JSON) {
             return null;
         }
 
@@ -37,8 +37,13 @@ public class Utilities {
         }
 
         // convert json to urlencoded
-        JSONObject jsonObject = new JSONObject(body);
-        String urlencoded = json2urlencoded(jsonObject);
+        String urlencoded;
+        if (content_type == IRequestInfo.CONTENT_TYPE_NONE || content_type == IRequestInfo.CONTENT_TYPE_URL_ENCODED) {
+            urlencoded = body;
+        } else {
+            JSONObject jsonObject = new JSONObject(body);
+            urlencoded = json2urlencoded(jsonObject);
+        }
 
         // update content-type header
         List<String> headers;
@@ -149,7 +154,7 @@ public class Utilities {
             final int idx = pair.indexOf("=");
             final String key = idx > 0 ? URLDecoder.decode(pair.substring(0, idx), "UTF-8") : pair;
             final String value = idx > 0 && pair.length() > idx + 1 ? URLDecoder.decode(pair.substring(idx + 1), "UTF-8") : "";
-            jsonObject.put(key, value.trim());
+            jsonObject.put(key, value);
         }
         return jsonObject;
     }
@@ -159,8 +164,8 @@ public class Utilities {
         List<String> pairs = new ArrayList<>();
         Iterator<String> keysIterator = jsonObject.keys();
         while (keysIterator.hasNext()) {
-            String key = keysIterator.next();
-            Object value = jsonObject.get(key);
+            final String key = keysIterator.next();
+            final Object value = jsonObject.get(key);
             final String pair = key + "=" + URLEncoder.encode(value.toString(), "UTF-8");
             pairs.add(pair);
         }
